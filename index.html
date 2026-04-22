@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dnyaneshwar Tate — Data Analyst</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #070a0f;
+    --bg2: #0d1117;
+    --accent: #00d4ff;
+    --accent2: #7c3aed;
+    --accent3: #10b981;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --card: #0f1923;
+    --border: #1e2d3d;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* CANVAS */
+  #particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    padding: 1.2rem 3rem;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(7, 10, 15, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Space Mono', monospace;
+    font-size: 1rem;
+    color: var(--accent);
+    letter-spacing: 2px;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--muted); text-decoration: none;
+    font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* SECTIONS */
+  section { position: relative; z-index: 1; }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center;
+    padding: 6rem 2rem 4rem;
+  }
+  .hero-content { max-width: 800px; }
+  .hero-tag {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    border: 1px solid var(--accent);
+    padding: 0.4rem 1rem;
+    border-radius: 2px;
+    margin-bottom: 2rem;
+    animation: fadeUp 0.8s ease both;
+  }
+  .hero-name {
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -1px;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+  .hero-name span { color: var(--accent); }
+  .hero-typed {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
+    color: var(--muted);
+    margin: 1.5rem 0 2.5rem;
+    animation: fadeUp 0.8s 0.4s ease both;
+    min-height: 2rem;
+  }
+  .hero-typed .cursor {
+    display: inline-block;
+    width: 2px; height: 1.2em;
+    background: var(--accent);
+    margin-left: 2px;
+    animation: blink 1s infinite;
+    vertical-align: text-bottom;
+  }
+  .hero-btns {
+    display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+    animation: fadeUp 0.8s 0.6s ease both;
+  }
+  .btn {
+    padding: 0.8rem 2rem;
+    border-radius: 3px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    text-decoration: none;
+    transition: all 0.3s;
+    cursor: pointer;
+    border: none;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: var(--bg);
+    font-weight: 700;
+  }
+  .btn-primary:hover { background: #00b8d9; transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,212,255,0.3); }
+  .btn-outline {
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+  }
+  .btn-outline:hover { background: rgba(0,212,255,0.1); transform: translateY(-2px); }
+
+  .hero-scroll {
+    margin-top: 4rem;
+    animation: fadeUp 0.8s 0.8s ease both;
+  }
+  .scroll-line {
+    width: 1px; height: 60px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+    margin: 0 auto;
+    animation: scrollPulse 2s infinite;
+  }
+
+  /* ABOUT */
+  #about {
+    padding: 6rem 2rem;
+    max-width: 1100px; margin: 0 auto;
+  }
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .section-title {
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 800;
+    margin-bottom: 3rem;
+    letter-spacing: -0.5px;
+  }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+  .about-text p {
+    color: var(--muted);
+    line-height: 1.8;
+    margin-bottom: 1.2rem;
+    font-size: 1rem;
+  }
+  .about-text p strong { color: var(--text); }
+  .about-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .stat-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+  .stat-num {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--accent);
+    font-family: 'Space Mono', monospace;
+  }
+  .stat-label { font-size: 0.8rem; color: var(--muted); margin-top: 0.3rem; }
+
+  /* SKILLS */
+  #skills {
+    padding: 6rem 2rem;
+    background: var(--bg2);
+  }
+  .skills-inner { max-width: 1100px; margin: 0 auto; }
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+  .skill-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.8rem;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .skill-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--accent);
+    transform: scaleY(0);
+    transition: transform 0.3s;
+    transform-origin: bottom;
+  }
+  .skill-card:hover::before { transform: scaleY(1); }
+  .skill-card:hover { border-color: var(--accent); transform: translateX(4px); }
+  .skill-card-icon { font-size: 1.8rem; margin-bottom: 1rem; }
+  .skill-card-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.8rem; }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    background: rgba(0,212,255,0.08);
+    color: var(--accent);
+    border: 1px solid rgba(0,212,255,0.2);
+    padding: 0.2rem 0.6rem;
+    border-radius: 3px;
+  }
+  .tag.green { background: rgba(16,185,129,0.08); color: var(--accent3); border-color: rgba(16,185,129,0.2); }
+  .tag.purple { background: rgba(124,58,237,0.08); color: #a78bfa; border-color: rgba(124,58,237,0.2); }
+
+  /* PROJECTS */
+  #projects {
+    padding: 6rem 2rem;
+    max-width: 1100px; margin: 0 auto;
+  }
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+  .project-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 2rem;
+    transition: all 0.3s;
+    display: flex; flex-direction: column;
+    position: relative; overflow: hidden;
+  }
+  .project-card::after {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transform: scaleX(0);
+    transition: transform 0.3s;
+  }
+  .project-card:hover::after { transform: scaleX(1); }
+  .project-card:hover { border-color: var(--accent); transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+  .project-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+  }
+  .project-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.8rem; }
+  .project-desc { color: var(--muted); font-size: 0.9rem; line-height: 1.7; margin-bottom: 1.5rem; flex: 1; }
+  .project-insights {
+    background: rgba(0,212,255,0.05);
+    border: 1px solid rgba(0,212,255,0.1);
+    border-radius: 6px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .project-insights-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--accent);
+    letter-spacing: 2px;
+    margin-bottom: 0.6rem;
+  }
+  .project-insights ul { list-style: none; }
+  .project-insights li {
+    font-size: 0.8rem;
+    color: var(--muted);
+    padding: 0.2rem 0;
+    padding-left: 1rem;
+    position: relative;
+  }
+  .project-insights li::before { content: '→'; position: absolute; left: 0; color: var(--accent); }
+  .project-tools { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.5rem; }
+  .project-links { display: flex; gap: 1rem; }
+  .project-link {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--accent);
+    text-decoration: none;
+    border: 1px solid rgba(0,212,255,0.3);
+    padding: 0.4rem 0.8rem;
+    border-radius: 3px;
+    transition: all 0.3s;
+  }
+  .project-link:hover { background: rgba(0,212,255,0.1); }
+
+  /* CONTACT */
+  #contact {
+    padding: 6rem 2rem;
+    background: var(--bg2);
+    text-align: center;
+  }
+  .contact-inner { max-width: 600px; margin: 0 auto; }
+  .contact-inner p { color: var(--muted); margin: 1rem 0 2.5rem; line-height: 1.7; }
+  .contact-links {
+    display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;
+    margin-top: 2rem;
+  }
+  .contact-link {
+    display: flex; align-items: center; gap: 0.6rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 0.8rem 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    transition: all 0.3s;
+  }
+  .contact-link:hover { color: var(--accent); border-color: var(--accent); background: rgba(0,212,255,0.05); }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 2rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    position: relative; z-index: 1;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .about-stats { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">DN_TATE</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-content">
+    <div class="hero-tag">Available for DA Roles · Pune</div>
+    <h1 class="hero-name">Dnyaneshwar<br><span>Tate</span></h1>
+    <div class="hero-typed">
+      <span id="typed-text"></span><span class="cursor"></span>
+    </div>
+    <div class="hero-btns">
+      <a href="#projects" class="btn btn-primary">View Projects</a>
+      <a href="#contact" class="btn btn-outline">Get In Touch</a>
+    </div>
+    <div class="hero-scroll"><div class="scroll-line"></div></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="reveal">
+    <div class="section-label">01 · About</div>
+    <h2 class="section-title">Turning Raw Data Into<br>Business Decisions</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>I'm a <strong>Computer Science undergraduate</strong> at Shri Tuljabhavani College of Engineering, Pune (B.Tech 2026, CGPA 8.2/10), actively seeking entry-level Data Analyst roles.</p>
+        <p>Self-driven and project-focused — I've built <strong>end-to-end analytics projects</strong> from raw data ingestion to business insight delivery, without formal mentorship.</p>
+        <p>My work spans <strong>SQL querying, ETL pipelines, KPI dashboards</strong> in Excel, and interactive Power BI reports — with a growing focus on Data Engineering.</p>
+      </div>
+      <div class="about-stats">
+        <div class="stat-card">
+          <div class="stat-num">100K+</div>
+          <div class="stat-label">Orders Analysed</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">22K+</div>
+          <div class="stat-label">Job Postings Mined</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">9</div>
+          <div class="stat-label">Advanced SQL Queries</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">8.2</div>
+          <div class="stat-label">CGPA / 10</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="skills-inner">
+    <div class="reveal">
+      <div class="section-label">02 · Skills</div>
+      <h2 class="section-title">Tech Stack</h2>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card reveal">
+        <div class="skill-card-icon">🗄️</div>
+        <div class="skill-card-title">SQL & Databases</div>
+        <div class="skill-tags">
+          <span class="tag">SQL Server</span>
+          <span class="tag">MySQL</span>
+          <span class="tag">PostgreSQL</span>
+          <span class="tag">Window Functions</span>
+          <span class="tag">CTEs</span>
+          <span class="tag">Subqueries</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-card-icon">📊</div>
+        <div class="skill-card-title">BI & Visualisation</div>
+        <div class="skill-tags">
+          <span class="tag">Power BI</span>
+          <span class="tag">DAX</span>
+          <span class="tag">Excel Dashboards</span>
+          <span class="tag">Pivot Tables</span>
+          <span class="tag">KPI Reporting</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-card-icon">🐍</div>
+        <div class="skill-card-title">Python & ETL</div>
+        <div class="skill-tags">
+          <span class="tag green">Pandas</span>
+          <span class="tag green">NumPy</span>
+          <span class="tag green">Matplotlib</span>
+          <span class="tag green">Seaborn</span>
+          <span class="tag green">Data Cleaning</span>
+          <span class="tag green">ETL Pipelines</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-card-icon">⚙️</div>
+        <div class="skill-card-title">Tools & Platforms</div>
+        <div class="skill-tags">
+          <span class="tag purple">Git & GitHub</span>
+          <span class="tag purple">Jupyter Notebook</span>
+          <span class="tag purple">Google Colab</span>
+          <span class="tag purple">SSMS</span>
+          <span class="tag purple">Google Sheets</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="reveal">
+    <div class="section-label">03 · Projects</div>
+    <h2 class="section-title">Featured Work</h2>
+  </div>
+  <div class="projects-grid">
+
+    <div class="project-card reveal">
+      <div class="project-num">PROJECT · 01</div>
+      <div class="project-title">Brazilian eCommerce Analysis</div>
+      <div class="project-desc">End-to-end analysis of 100K+ orders — from raw data ingestion to business insight delivery using SQL Server and Excel.</div>
+      <div class="project-insights">
+        <div class="project-insights-title">KEY INSIGHTS</div>
+        <ul>
+          <li>Top 5 cities drive 42% of total revenue</li>
+          <li>1,800x order growth in 14 months</li>
+          <li>29/74 categories exceed 20% freight burden</li>
+          <li>Classic 80/20 customer spending pattern</li>
+        </ul>
+      </div>
+      <div class="project-tools">
+        <span class="tag">SQL Server</span>
+        <span class="tag">Excel</span>
+        <span class="tag">CTEs</span>
+        <span class="tag">Window Functions</span>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/imperfectt2513/brazilian-ecommerce-analysis" target="_blank" class="project-link">GitHub →</a>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-num">PROJECT · 02</div>
+      <div class="project-title">Brazilian eCommerce — Power BI</div>
+      <div class="project-desc">5-page interactive Power BI dashboard with advanced DAX measures — YTD revenue, MoM growth, geographic analysis and drill-through.</div>
+      <div class="project-insights">
+        <div class="project-insights-title">KEY INSIGHTS</div>
+        <ul>
+          <li>São Paulo = ~40% of total revenue</li>
+          <li>Rio de Janeiro — high AOV, low volume</li>
+          <li>Zero repeat customers across 2 years</li>
+          <li>April peak revenue across all categories</li>
+        </ul>
+      </div>
+      <div class="project-tools">
+        <span class="tag">Power BI</span>
+        <span class="tag">DAX</span>
+        <span class="tag">RANKX</span>
+        <span class="tag">TOTALYTD</span>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/imperfectt2513/brazilian-ecommerce-powerbi" target="_blank" class="project-link">GitHub →</a>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-num">PROJECT · 03</div>
+      <div class="project-title">Naukri Jobs Market Analysis</div>
+      <div class="project-desc">Analysis of 22,000+ Naukri.com job postings to uncover hiring trends, city demand, and skill requirements across India.</div>
+      <div class="project-insights">
+        <div class="project-insights-title">KEY INSIGHTS</div>
+        <ul>
+          <li>IT Software dominates — 9,216 postings (7x any sector)</li>
+          <li>Bengaluru is India's #1 hiring city</li>
+          <li>88% of jobs require experience</li>
+          <li>Analytics & BI grew from 190 to 1.5M+ jobs</li>
+        </ul>
+      </div>
+      <div class="project-tools">
+        <span class="tag">SQL Server</span>
+        <span class="tag">Power BI</span>
+        <span class="tag green">Data Analysis</span>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/imperfectt2513/naukri-jobs-analysis" target="_blank" class="project-link">GitHub →</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner reveal">
+    <div class="section-label">04 · Contact</div>
+    <h2 class="section-title">Let's Connect</h2>
+    <p>I'm actively looking for Data Analyst roles in Pune. If you're hiring or want to collaborate, feel free to reach out.</p>
+    <a href="mailto:dnyaneshwartate910@gmail.com" class="btn btn-primary">Send an Email</a>
+    <div class="contact-links">
+      <a href="https://linkedin.com/in/dnyaneshwartate" target="_blank" class="contact-link">
+        <span>💼</span> LinkedIn
+      </a>
+      <a href="https://github.com/imperfectt2513" target="_blank" class="contact-link">
+        <span>🐙</span> GitHub
+      </a>
+      <a href="mailto:dnyaneshwartate910@gmail.com" class="contact-link">
+        <span>📧</span> Email
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Built by Dnyaneshwar Tate · 2026</p>
+</footer>
+
+<script>
+// PARTICLES
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const particles = [];
+const count = 80;
+
+for (let i = 0; i < count; i++) {
+  particles.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 1.5 + 0.3,
+    dx: (Math.random() - 0.5) * 0.4,
+    dy: (Math.random() - 0.5) * 0.4,
+    alpha: Math.random() * 0.5 + 0.1
+  });
+}
+
+function drawParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => {
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(0, 212, 255, ${p.alpha})`;
+    ctx.fill();
+    p.x += p.dx; p.y += p.dy;
+    if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+    if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+  });
+
+  // Connect nearby particles
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i + 1; j < particles.length; j++) {
+      const dist = Math.hypot(particles[i].x - particles[j].x, particles[i].y - particles[j].y);
+      if (dist < 120) {
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(particles[j].x, particles[j].y);
+        ctx.strokeStyle = `rgba(0, 212, 255, ${0.05 * (1 - dist / 120)})`;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      }
+    }
+  }
+  requestAnimationFrame(drawParticles);
+}
+drawParticles();
+
+window.addEventListener('resize', () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+
+// TYPING EFFECT
+const phrases = [
+  'Data Analyst',
+  'SQL Developer',
+  'Power BI Developer',
+  'Turning Data → Insights'
+];
+let pi = 0, ci = 0, deleting = false;
+const typedEl = document.getElementById('typed-text');
+
+function type() {
+  const current = phrases[pi];
+  if (!deleting) {
+    typedEl.textContent = current.slice(0, ci + 1);
+    ci++;
+    if (ci === current.length) { deleting = true; setTimeout(type, 1800); return; }
+  } else {
+    typedEl.textContent = current.slice(0, ci - 1);
+    ci--;
+    if (ci === 0) { deleting = false; pi = (pi + 1) % phrases.length; }
+  }
+  setTimeout(type, deleting ? 60 : 90);
+}
+type();
+
+// SCROLL REVEAL
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 100);
+    }
+  });
+}, { threshold: 0.1 });
+reveals.forEach(r => observer.observe(r));
+</script>
+</body>
+</html>
