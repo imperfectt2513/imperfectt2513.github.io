@@ -2,7 +2,7 @@
 
 This repository contains the source code for my professional portfolio website. 
 
-### 🌐 Live Link: [imperfectt2513.github.io](https://imperfectt2513.github.io)
+### 🌐 Live Link: https://imperfectt45.github.io/
 
 ## 🎯 Purpose
 The goal of this site is to showcase my journey as a **Data Analyst**, moving from a Computer Science background into data-driven decision making. It highlights my technical skills in:
